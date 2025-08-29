@@ -87,44 +87,21 @@ def abrir_janela2():
 
     ctk.CTkLabel(janela2, text="Alunos cadastrados", font=("Time News Roman", 28)).pack(pady=20)
 
-
-    lista_alunos = ctk.CTkTextbox(janela2, width=800, height=500, font=("Time News Roman", 16))
-    lista_alunos.pack(pady=20)
-
-    cursor.execute("SELECT nome, turma, idade, cpf FROM ALUNOS")
+    cursor.execute("SELECT id_aluno, nome, turma, idade, cpf FROM ALUNOS")
     alunos = cursor.fetchall()
 
     if not alunos:
-        lista_alunos.insert("end", "Nenhum aluno cadastrado ainda.")
-
+        ctk.CTkLabel(janela2, text="Nenhum aluno cadastrado ainda.", font=("Time News Roman", 18)).pack(pady=10)
     else:
         for aluno in alunos:
-            nome, turma, idade, cpf = aluno
-            lista_alunos.insert("end", f"Nome: {nome}\nTurma: {turma}\nIdade: {idade}\nCPF: {cpf}\n\n")
-            btn = ctk.CTkButton (
+            id_aluno, nome, turma, idade, cpf = aluno
+            btn = ctk.CTkButton(
                 janela2,
                 text=nome,
-                command=lambda id_aluno=id_aluno: mostrar_ficha(id_aluno) )
+                width=200,
+                command=lambda id_aluno=id_aluno: abrir_janela3(id_aluno)
+            )
             btn.pack(pady=5)
-
-    lista_alunos.configure(state="disabled")
-    abrir_janela3()
-
-    def abrir_janela3():
-        janela3 = ctk.CTkToplevel()
-        janela3.geometry("1280x720")
-        janela3.title("Ficha detalhada do aluno")
-        janela3.configure(bg="white")
-
-        ctk.CTkLabel(janela3, text="Ficha detalhada do aluno", font=("Time News Roman", 20)).pack()
-
-
-
-
-
-
-
-
 
 
 janela.mainloop()
